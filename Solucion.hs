@@ -6,29 +6,43 @@ import Data.Char
 
 
 -- Completar!
--- Nombre de grupo: {}
--- Integrante1: { DNI1,apellidoYNombre1}
+-- Nombre de grupo: {Los Linces}
+-- Integrante1: { 4526405, Andrade, Gonzalo}
 -- Integrante2: { DNI2,apellidoYNombre2}
 -- Integrante3: { DNI3,apellidoYNombre3}
 -- Integrante4: { DNI4,apellidoYNombre4}
 -- Integrantes que abandonaron la materia: {En caso que haya abandonado la materia algún
                         -- integrante, completar con los dni y apellidos, sino dejar vacío}
 
+
+-- Las letras en minuscula van de la 97 a la 122
+-- Las mayusculas van de la 65 a la 90
+
 -- EJ 1
 esMinuscula :: Char -> Bool
-esMinuscula _ = True
+esMinuscula caracter = 97 <= Data.Char.ord(caracter) && Data.Char.ord(caracter) <= 122 
 
 -- EJ 2
+esMayuscula :: Char -> Bool
+esMayuscula caracter = 65 < Data.Char.ord(caracter) && Data.Char.ord(caracter) < 90 
+
 letraANatural :: Char -> Int
-letraANatural _ = 1
+letraANatural caracter | esMinuscula caracter == True = Data.Char.ord(caracter) - 97
+                       | esMayuscula caracter == True = Data.Char.ord(caracter) - 65
+                       | otherwise = Data.Char.ord(caracter) -- Aca tiro q si no es una letra, 
+                       -- que devuelva igual asi el numero del caracter, no se si esta bien o mal
 
 -- EJ 3
 desplazar :: Char -> Int -> Char
-desplazar _ _ = 'd'
+desplazar caracter movimiento | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
+                              | otherwise = 'c'
 
 -- EJ 4
+
 cifrar :: String -> Int -> String
-cifrar _ _ = "frpsxwdflrq"
+cifrar "" _ = ""
+cifrar (x:xs) movimiento = (desplazar x movimiento) ++ (cifrar xs movimiento)
+-- NO COMPILA
 
 -- EJ 5
 descifrar :: String -> Int -> String
