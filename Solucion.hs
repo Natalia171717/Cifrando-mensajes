@@ -34,19 +34,25 @@ letraANatural caracter | esMinuscula caracter == True = Data.Char.ord(caracter) 
 
 -- EJ 3
 desplazar :: Char -> Int -> Char
-desplazar caracter movimiento | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
+desplazar caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) <= 122 = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
+                              | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento - 26) -- En el caso que se pase, que empiece hacia atras de vuelta
                               | otherwise = 'c'
 
 -- EJ 4
+cifrarAux :: Char -> Int -> Char
+cifrarAux caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) <= 122 = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
+                              | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) >= 97 = Data.Char.chr(Data.Char.ord(caracter) + movimiento - 26) -- No es perfecto el 26, ya que si se da mas de una vuelta, funciona mal
+                              | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento + 26) -- En el caso que vaya para atras, que vuelva hacia el abecedario dado vuelta
+                              | otherwise = caracter
+
 
 cifrar :: String -> Int -> String
 cifrar "" _ = ""
-cifrar (x:xs) movimiento = (desplazar x movimiento) ++ (cifrar xs movimiento)
--- NO COMPILA
+cifrar (x:xs) movimiento = (cifrarAux x movimiento) : (cifrar xs movimiento)
 
 -- EJ 5
 descifrar :: String -> Int -> String
-descifrar _ _ = "computacion"
+descifrar (x:xs) movimiento = (cifrarAux x (-movimiento)) : (cifrar xs (-movimiento))
 
 -- EJ 6
 cifrarLista :: [String] -> [String]
