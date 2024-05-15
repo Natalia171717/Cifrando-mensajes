@@ -45,7 +45,6 @@ cifrarAux caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(c
                               | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento + 26) -- En el caso que vaya para atras, que vuelva hacia el abecedario dado vuelta
                               | otherwise = caracter
 
-
 cifrar :: String -> Int -> String
 cifrar "" _ = ""
 cifrar (x:xs) movimiento = (cifrarAux x movimiento) : (cifrar xs movimiento)
@@ -56,11 +55,19 @@ descifrar (x:xs) movimiento = (cifrarAux x (-movimiento)) : (cifrar xs (-movimie
 
 -- EJ 6
 cifrarLista :: [String] -> [String]
-cifrarLista _ = ["compu", "mbcp", "kpvtq"]
+cifrarLista [] = []
+cifrarLista (x:xs) = cifrarListaAux (x:xs) 0 
+
+cifrarListaAux :: [String] -> Int -> [String]
+cifrarListaAux [] _= []
+cifrarListaAux (x:xs) movimiento = cifrar x movimiento : cifrarListaAux xs (movimiento+1) 
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia _ = [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
+frecuencia palabra = 
+
+frecuenciaAux :: String -> Int -> Float
+frecuenciaAux palabra _ = 
 
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
