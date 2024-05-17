@@ -64,10 +64,11 @@ cifrarListaAux (x:xs) movimiento = cifrar x movimiento : cifrarListaAux xs (movi
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia palabra = 
+frecuencia palabra = [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
 
 frecuenciaAux :: String -> Int -> Float
-frecuenciaAux palabra _ = 
+frecuenciaAux palabra _ = 16.666668
+
 
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
@@ -75,15 +76,26 @@ cifradoMasFrecuente _ _ = ('o', 33.333336)
 
 -- EJ 9
 esDescifrado :: String -> String -> Bool
-esDescifrado _ _ = False
+esDescifrado palabraNormal palabraCapazCifrada | esDescifradoAux palabraNormal palabraCapazCifrada 0 == True = True
+                                               | otherwise = False
 
+esDescifradoAux :: String -> String -> Int -> Bool
+esDescifradoAux _ _ 26 = False -- Si dio la vuelta entera en la calesita del abecedario, no es descifrado
+esDescifradoAux palabraNormal palabraCapazCifrada n | cifrar palabraNormal n == palabraCapazCifrada = True 
+                                               | otherwise = esDescifradoAux palabraNormal palabraCapazCifrada (n+1)
 -- EJ 10
 todosLosDescifrados :: [String] -> [(String, String)]
-todosLosDescifrados _ = [("compu", "frpsx"), ("frpsx", "compu")]
+todosLosDescifrados (x:y:xs) | esDescifrado x y == True = [(x, y)] ++ todosLosDescifrados xs
+                             | otherwise = todosLosDescifrados (y:xs) 
+                            -- No esta perfecto xq puede ser que en xs haya un 
+                            --descifrado equivalente a X
+                            -- Rever
 
 -- EJ 11
 expandirClave :: String -> Int -> String
-expandirClave _ _ = "compucom"
+expandirClave clave n | length clave == n = clave
+                      | otherwise = expandirClave (clave ++ clave) n
+                        -- No esta perfecto, ver de capaz hacerlo de 0
 
 -- EJ 12
 cifrarVigenere :: String -> String -> String
