@@ -21,10 +21,12 @@ import Data.Char
 -- EJ 1
 esMinuscula :: Char -> Bool
 esMinuscula caracter = 97 <= Data.Char.ord(caracter) && Data.Char.ord(caracter) <= 122 
+                -- el 97 es la a minuscula, el 122 es la Z minuscula
 
 -- EJ 2
 esMayuscula :: Char -> Bool
 esMayuscula caracter = 65 < Data.Char.ord(caracter) && Data.Char.ord(caracter) < 90 
+                -- el 65 es la A mayusucla, el 90 es la Z mayuscula
 
 letraANatural :: Char -> Int
 letraANatural caracter | esMinuscula caracter == True = Data.Char.ord(caracter) - 97
@@ -44,19 +46,24 @@ cifrarAux caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(c
                               | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) >= 97 = Data.Char.chr(Data.Char.ord(caracter) + movimiento - 26) -- No es perfecto el 26, ya que si se da mas de una vuelta, funciona mal
                               | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento + 26) -- En el caso que vaya para atras, que vuelva hacia el abecedario dado vuelta
                               | otherwise = caracter
+-- Repensarlo
 
 cifrar :: String -> Int -> String
 cifrar "" _ = ""
 cifrar (x:xs) movimiento = (cifrarAux x movimiento) : (cifrar xs movimiento)
+-- Va a tener casos que tire mal, x el problema del cifrarAux
 
 -- EJ 5
 descifrar :: String -> Int -> String
 descifrar (x:xs) movimiento = (cifrarAux x (-movimiento)) : (cifrar xs (-movimiento))
 
+-- Va a tener casos que tire mal, x el problema del cifrarAux
+
 -- EJ 6
 cifrarLista :: [String] -> [String]
 cifrarLista [] = []
 cifrarLista (x:xs) = cifrarListaAux (x:xs) 0 
+-- Va a tener casos que tire mal, x el problema del cifrarAux
 
 cifrarListaAux :: [String] -> Int -> [String]
 cifrarListaAux [] _= []
@@ -65,9 +72,6 @@ cifrarListaAux (x:xs) movimiento = cifrar x movimiento : cifrarListaAux xs (movi
 -- EJ 7
 frecuencia :: String -> [Float]
 frecuencia palabra = [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
-
-frecuenciaAux :: String -> Int -> Float
-frecuenciaAux palabra _ = 16.666668
 
 
 -- Ej 8
@@ -93,9 +97,9 @@ todosLosDescifrados (x:y:xs) | esDescifrado x y == True = [(x, y)] ++ todosLosDe
 
 -- EJ 11
 expandirClave :: String -> Int -> String
-expandirClave clave n | length clave == n = clave
-                      | otherwise = expandirClave (clave ++ clave) n
-                        -- No esta perfecto, ver de capaz hacerlo de 0
+expandirClave (x:xs) n | length (x:xs) == n = (x:xs)
+                       | otherwise = [x] ++ expandirClave xs n
+                        -- No funca
 
 -- EJ 12
 cifrarVigenere :: String -> String -> String
