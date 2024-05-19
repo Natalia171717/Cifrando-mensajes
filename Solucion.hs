@@ -8,7 +8,7 @@ import Data.Char
 -- Completar!
 -- Nombre de grupo: {Los Linces}
 -- Integrante1: { 4526405, Andrade, Gonzalo}
--- Integrante2: { DNI2,apellidoYNombre2}
+-- Integrante2: { 45320586, De Marco, Augusto}
 -- Integrante3: { DNI3,apellidoYNombre3}
 -- Integrante4: { DNI4,apellidoYNombre4}
 -- Integrantes que abandonaron la materia: {En caso que haya abandonado la materia algún
