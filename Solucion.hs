@@ -9,7 +9,7 @@ import Data.Char
 -- Nombre de grupo: {Los Linces}
 -- Integrante1: { 4526405, Andrade, Gonzalo}
 -- Integrante2: { 45320586, De Marco, Augusto}
--- Integrante3: { DNI3,apellidoYNombre3}
+-- Integrante3: { 96245438, Pérez, Natalia}
 -- Integrante4: { DNI4,apellidoYNombre4}
 -- Integrantes que abandonaron la materia: {En caso que haya abandonado la materia algún
                         -- integrante, completar con los dni y apellidos, sino dejar vacío}
@@ -20,45 +20,39 @@ import Data.Char
 
 -- EJ 1
 esMinuscula :: Char -> Bool
-esMinuscula caracter = 97 <= Data.Char.ord(caracter) && Data.Char.ord(caracter) <= 122 
+esMinuscula caracter = 97 <= ord(caracter) && ord(caracter) <= 122 
                 -- el 97 es la a minuscula, el 122 es la Z minuscula
 
 -- EJ 2
-esMayuscula :: Char -> Bool
-esMayuscula caracter = 65 < Data.Char.ord(caracter) && Data.Char.ord(caracter) < 90 
+{--esMayuscula :: Char -> Bool
+esMayuscula caracter = 65 < Data.Char.ord(caracter) && Data.Char.ord(caracter) < 90--} 
                 -- el 65 es la A mayusucla, el 90 es la Z mayuscula
 
 letraANatural :: Char -> Int
-letraANatural caracter | esMinuscula caracter == True = Data.Char.ord(caracter) - 97
-                       | esMayuscula caracter == True = Data.Char.ord(caracter) - 65
-                       | otherwise = Data.Char.ord(caracter) -- Aca tiro q si no es una letra, 
-                       -- que devuelva igual asi el numero del caracter, no se si esta bien o mal
+letraANatural caracter = ord(caracter) - 97
 
 -- EJ 3
 desplazar :: Char -> Int -> Char
-desplazar caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) <= 122 = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
-                              | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento - 26) -- En el caso que se pase, que empiece hacia atras de vuelta
-                              | otherwise = 'c'
+desplazar caracter movimiento | esMinuscula caracter == True && (ord(caracter) + movimiento) >=97 && (ord(caracter) + movimiento) <= 122 = chr(ord(caracter) + movimiento)
+                              | esMinuscula caracter == True = desplazarAux caracter movimiento
+                              | otherwise = caracter
+
+desplazarAux :: Char -> Int -> Char
+desplazarAux caracter movimiento | movimiento>0 && (ord(caracter) + movimiento)>122 = desplazarAux caracter (movimiento-26)
+                           | movimiento<0 && (ord(caracter) + movimiento)<97 = desplazarAux caracter (movimiento+26)
+                           |otherwise = chr(ord(caracter) + movimiento)
 
 -- EJ 4
-cifrarAux :: Char -> Int -> Char
-cifrarAux caracter movimiento | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) <= 122 = Data.Char.chr(Data.Char.ord(caracter) + movimiento)
-                              | esMinuscula caracter == True && (Data.Char.ord(caracter) + movimiento) >= 97 = Data.Char.chr(Data.Char.ord(caracter) + movimiento - 26) -- No es perfecto el 26, ya que si se da mas de una vuelta, funciona mal
-                              | esMinuscula caracter == True = Data.Char.chr(Data.Char.ord(caracter) + movimiento + 26) -- En el caso que vaya para atras, que vuelva hacia el abecedario dado vuelta
-                              | otherwise = caracter
--- Repensarlo
-
 cifrar :: String -> Int -> String
 cifrar "" _ = ""
-cifrar (x:xs) movimiento = (cifrarAux x movimiento) : (cifrar xs movimiento)
--- Va a tener casos que tire mal, x el problema del cifrarAux
+cifrar (x:xs) movimiento = (desplazar x movimiento) : (cifrar xs movimiento)
 
 -- EJ 5
 descifrar :: String -> Int -> String
-descifrar (x:xs) movimiento = (cifrarAux x (-movimiento)) : (cifrar xs (-movimiento))
+descifrar "" _ = ""
+descifrar (x:xs) movimiento = (desplazar x (-movimiento)) : (descifrar xs movimiento)
 
--- Va a tener casos que tire mal, x el problema del cifrarAux
-
+--QUEDE ACÁ
 -- EJ 6
 cifrarLista :: [String] -> [String]
 cifrarLista [] = []
