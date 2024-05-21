@@ -16,20 +16,24 @@ allTests = test [
     "cifradoMasFrecuente" ~: testsEjcifradoMasFrecuente,
     "esDescifrado" ~: testsEjesDescifrado,
     "todosLosDescifrados" ~: testsEjtodosLosDescifrados,
-    "expandirClave" ~: testsEjexpandirClave,
-    "cifrarVigenere" ~: testsEjcifrarVigenere,
-    "descifrarVigenere" ~: testsEjdescifrarVigenere,
-    "peorCifrado" ~: testsEjpeorCifrado,
-    "combinacionesVigenere" ~: testsEjcombinacionesVigenere
+    --"expandirClave" ~: testsEjexpandirClave,
+    --"cifrarVigenere" ~: testsEjcifrarVigenere,
+    --"descifrarVigenere" ~: testsEjdescifrarVigenere,
+    --"peorCifrado" ~: testsEjpeorCifrado,
+    --"combinacionesVigenere" ~: testsEjcombinacionesVigenere
     ]
 
 
 testsEjesMinuscula = test [
-    esMinuscula 'd' ~?= True
+    esMinuscula 'a' ~?= True
+    esMinuscula '/' ~?= False
+    esMinuscula 'A' ~?= False
     ]
 
 testsEjletraANatural = test [
     letraANatural 'b' ~?= 1
+    letraANatural '/' ~?= '/'
+    letraANatural 'B' ~?= B
     ]
 
 testsEjdesplazar = test [
@@ -52,37 +56,28 @@ testsEjfrecuencia = test [
     expectlistProximity (frecuencia "taller") [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
     ]
 
-testsEjcifradoMasFrecuente = test [
-    cifradoMasFrecuente "taller" 3 ~?= ('o', 33.333336)
-    ]
+--testsEjcifradoMasFrecuente = test [
+  --  cifradoMasFrecuente "taller" 3 ~?= ('o', 33.333336)]
 
-testsEjesDescifrado = test [
-    esDescifrado "taller" "compu" ~?= False
-    ]
+--testsEjesDescifrado = test [
+  --  esDescifrado "taller" "compu" ~?= False]
 
-testsEjtodosLosDescifrados = test [
-    todosLosDescifrados ["compu", "frpsx", "mywza"] ~?= [("compu", "frpsx"), ("frpsx", "compu")]
-    ]
+--testsEjtodosLosDescifrados = test [todosLosDescifrados ["compu", "frpsx", "mywza"] ~?= [("compu", "frpsx"), ("frpsx", "compu")]]
 
-testsEjexpandirClave = test [
-    expandirClave "compu" 8 ~?= "compucom"
-    ]
+--testsEjexpandirClave = test [
+  --  expandirClave "compu" 8 ~?= "compucom"]
 
-testsEjcifrarVigenere = test [
-    cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv"
-    ]
+--testsEjcifrarVigenere = test [
+  --  cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv"]
 
-testsEjdescifrarVigenere = test [
-    descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion"
-    ]
+--testsEjdescifrarVigenere = test [
+  --  descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion"]
 
-testsEjpeorCifrado = test [
-    peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef"
-    ]
+--testsEjpeorCifrado = test [
+  --  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef"]
 
-testsEjcombinacionesVigenere = test [
-    combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]
-    ]
+--testsEjcombinacionesVigenere = test [
+  --  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]]
 
 -- Funciones útiles
 

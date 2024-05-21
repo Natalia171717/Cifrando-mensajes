@@ -85,7 +85,13 @@ totalMinusculas (x:xs) |esMinuscula x = 1 + totalMinusculas xs
 --QUEDE ACÁ
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
-cifradoMasFrecuente _ _ = ('o', 33.333336)
+cifradoMasFrecuente palabraACifrar movimiento = cifradoMasFrecuenteAux (frecuencia(cifrar palabraACifrar movimiento)) 0
+
+cifradoMasFrecuenteAux :: [Float] -> Int -> (Char, Float)
+cifradoMasFrecuenteAux [x] numeroQueRepresentaLaLetra = ((chr(numeroQueRepresentaLaLetra+97)), x) 
+cifradoMasFrecuenteAux (porcentaje:otroPorcentaje:xs) numeroQueRepresentaLaLetra | porcentaje >= otroPorcentaje = cifradoMasFrecuenteAux (porcentaje:xs) (numeroQueRepresentaLaLetra)
+                    | otherwise = cifradoMasFrecuenteAux (otroPorcentaje:xs) (numeroQueRepresentaLaLetra+1)
+-- Esta perfecta la parte del porcentaje mayor, pero no esta bien la parte de cual es la letra a la q corresponde
 
 -- EJ 9
 esDescifrado :: String -> String -> Bool
@@ -106,10 +112,17 @@ todosLosDescifrados (x:y:xs) | esDescifrado x y == True = [(x, y)] ++ todosLosDe
 
 -- EJ 11
 expandirClave :: String -> Int -> String
-expandirClave (x:xs) n | length (x:xs) == n = (x:xs)
-                       | otherwise = [x] ++ expandirClave xs n
-                        -- No funca
+expandirClave palabra longitudDeseada =  expandirClaveAux palabra palabra palabra longitudDeseada
+-- La triple palabra, es un poco largo de explicar. Esto trata de resolver un problemilla que se encuentra cuando se quiere expandir la clave, a digamos, 100 caracteres y la clave, en este ejemplo, sea "clave"
+-- En ese caso, por como esta hecho el codigo, los "bloques de construccion" que son las letras que se van a ir removiendo de la tercera "palabra", entonces se va a vaciar, en ese caso se ve de hacer un "refill".
+-- Esto s econsigue a traves de la constante "palabraOriginal", y por ultimo tenemos "claveFinal", donde se realiza y guarda los cambios a la clave
 
+
+expandirClaveAux :: String -> String-> String-> Int -> String
+expandirClaveAux claveFinal palabraOriginal [y] longitudDeseada = expandirClaveAux claveFinal palabraOriginal palabraOriginal longitudDeseada
+expandirClaveAux (x:xs) palabra (y:ys) longitudDeseada | length (x:xs) == longitudDeseada = (x:xs) 
+                       | otherwise = (x:xs) ++ [y] ++ expandirClaveAux (x:xs) palabra ys longitudDeseada 
+-- Hay que preguntar que deberia de pasar cuando queremos "acortar" la palabra, deberia de acortarla? o quedar como es?
 -- EJ 12
 cifrarVigenere :: String -> String -> String
 cifrarVigenere _ _ = "kdueciirqdv"
