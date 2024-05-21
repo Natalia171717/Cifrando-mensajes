@@ -39,8 +39,8 @@ desplazar caracter movimiento | esMinuscula caracter == True && (ord(caracter) +
 
 desplazarAux :: Char -> Int -> Char
 desplazarAux caracter movimiento | movimiento>0 && (ord(caracter) + movimiento)>122 = desplazarAux caracter (movimiento-26)
-                           | movimiento<0 && (ord(caracter) + movimiento)<97 = desplazarAux caracter (movimiento+26)
-                           |otherwise = chr(ord(caracter) + movimiento)
+                                 | movimiento<0 && (ord(caracter) + movimiento)<97 = desplazarAux caracter (movimiento+26)
+                                 |otherwise = chr(ord(caracter) + movimiento)
 
 -- EJ 4
 cifrar :: String -> Int -> String
@@ -52,22 +52,37 @@ descifrar :: String -> Int -> String
 descifrar "" _ = ""
 descifrar (x:xs) movimiento = (desplazar x (-movimiento)) : (descifrar xs movimiento)
 
---QUEDE ACÁ
 -- EJ 6
 cifrarLista :: [String] -> [String]
 cifrarLista [] = []
 cifrarLista (x:xs) = cifrarListaAux (x:xs) 0 
--- Va a tener casos que tire mal, x el problema del cifrarAux
 
 cifrarListaAux :: [String] -> Int -> [String]
 cifrarListaAux [] _= []
-cifrarListaAux (x:xs) movimiento = cifrar x movimiento : cifrarListaAux xs (movimiento+1) 
+cifrarListaAux (x:xs) movimiento = (cifrar x movimiento) : cifrarListaAux xs (movimiento+1) 
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia palabra = [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
+frecuencia "" = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+frecuencia palabra |totalMinusculas palabra == 0 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                   |otherwise = frecuenciaAux palabra (chr 97)
 
+frecuenciaAux :: String -> Char -> [Float]
+frecuenciaAux palabra letra |ord(letra)>122 = []
+                            |otherwise = frecuenciaLetra : frecuenciaAux palabra (chr(ord(letra) + 1))
+                            where frecuenciaLetra = fromInteger((aparicionesLetra letra palabra)*100) / fromInteger(totalMinusculas palabra)
 
+aparicionesLetra :: Char -> String -> Integer
+aparicionesLetra _ [] = 0
+aparicionesLetra letra (x:xs) |letra==x = 1 + aparicionesLetra letra xs
+                              |otherwise = aparicionesLetra letra xs
+
+totalMinusculas :: String -> Integer
+totalMinusculas [] = 0
+totalMinusculas (x:xs) |esMinuscula x = 1 + totalMinusculas xs
+                       |otherwise = totalMinusculas xs
+
+--QUEDE ACÁ
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
 cifradoMasFrecuente _ _ = ('o', 33.333336)
