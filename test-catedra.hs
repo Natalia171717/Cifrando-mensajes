@@ -15,7 +15,7 @@ allTests = test [
     "frecuencia" ~: testsEjfrecuencia,
     "cifradoMasFrecuente" ~: testsEjcifradoMasFrecuente,
     "esDescifrado" ~: testsEjesDescifrado,
-    "todosLosDescifrados" ~: testsEjtodosLosDescifrados,
+    "todosLosDescifrados" ~: testsEjtodosLosDescifrados
     --"expandirClave" ~: testsEjexpandirClave,
     --"cifrarVigenere" ~: testsEjcifrarVigenere,
     --"descifrarVigenere" ~: testsEjdescifrarVigenere,
@@ -25,77 +25,83 @@ allTests = test [
 
 
 testsEjesMinuscula = test [
-    esMinuscula 'a' ~?= True
-    esMinuscula '/' ~?= False
-    esMinuscula 'A' ~?= False
+    esMinuscula 'a' ~?= True, -- Probamos con una minuscula
+    esMinuscula '/' ~?= False, --Probamos con un caracter que no sea una letra
+    esMinuscula 'A' ~?= False -- Probamos con una mayuscula
     ]
 
 testsEjletraANatural = test [
-    letraANatural 'b' ~?= 1
-    letraANatural '/' ~?= '/'
-    letraANatural 'B' ~?= B
+    letraANatural 'b' ~?= 1, -- Probando con una minuscula
+    letraANatural '/' ~?= -50, -- Probamos con un caracter que no sea una letra del abecedario
+    letraANatural 'B' ~?= -31 -- Probamos con una mayuscula
     ]
 
 testsEjdesplazar = test [
-    desplazar 'a' 3 ~?= 'd'
-    desplazar '/' 3 ~?= '/'
-    desplazar 'B' 3 ~?= 'B'
-    desplazar 'g' 0 ~?= 'g'
-    desplazar 'a' 26 ~?= 'a'
-    desplazar 'b' 27 ~?= 'c'
-    desplazar 'f' (-1) ~?= 'e'
+    desplazar 'a' 3 ~?= 'd', -- Probamos un movimiento corto en las primeras letras
+    desplazar '/' 3 ~?= '/', -- Probamos un movimiento corto con algo que no deberia moverse
+    desplazar 'B' 3 ~?= 'B', -- Probamos un movimiento corto con algo que no deberia moverse
+    desplazar 'g' 0 ~?= 'g', -- Probamos un movimiento nulo
+    desplazar 'a' 26 ~?= 'a', -- Probamos una vuelta completa
+    desplazar 'b' 27 ~?= 'c', -- Probamos mas de una vuelta
+    desplazar 'a' 100 ~?= 'w', -- Probamos mas de dos vueltas en el abecedario
+    desplazar 'f' (-1) ~?= 'e' -- Probamos un movimiento negativo
     ]
 
 testsEjcifrar = test [
-    cifrar "computacion" 3 ~?= "frpsxwdflrq"
-    cifrar "Nada" 3 ~?= "Ndgd"
-    cifrar "Buenas Tardes" 2 ~?= "Bwgpcu Tctfgu"
-    cifrar "zorro" 1 ~?= "apssp"
-    cifrar "luz" (-2) ~?= "jsx"
+    cifrar "computacion" 3 ~?= "frpsxwdflrq", -- Probamos un cifrado simple
+    cifrar "aAbBCc" 1 ~?= "bAcBCd", -- Probamos un test con mayusculas y minusculas
+    cifrar "zorro" 26 ~?= "zorro", -- 
+    cifrar "luz" (-2) ~?= "jsx",
     cifrar "hola!" 5 ~?= "mtqf!"
     ]
 
 testsEjdescifrar = test [
-    descifrar "frpsxwdflrq" 3 ~?= "computacion"
-    descifrar "Ndgd" 3 ~?= "Nada"
-    descifrar "Bwgpcu Tctfgu" 2 ~?= "Buenas Tardes"
-    descifrar "apssp" 1 ~?= "zorro"
-    descifrar "jsx" (-2) ~?= "luz"
-    descifrar "mtqf!" 3 ~?= "hola!"
+    descifrar "frpsxwdflrq" 3 ~?= "computacion",
+    descifrar "Ndgd" 3 ~?= "Nada",
+    descifrar "Bwgpcu Tctfgu" 2 ~?= "Buenas Tardes",
+    descifrar "apssp" 1 ~?= "zorro",
+    descifrar "jsx" (-2) ~?= "luz",
+    descifrar "mtqf!" 3 ~?= "jqnc!"
     ]
 
 testsEjcifrarLista = test [
-    cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"]
-    cifrarLista ["hola", "Chau", "texto"] ~?= ["hola","Cibv","vgzvq"]
-    cifrarLista ["yo", "", "vos"] ~?= ["yo","","xqu"]
+    cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"],
+    cifrarLista ["hola", "Chau", "texto"] ~?= ["hola","Cibv","vgzvq"],
+    cifrarLista ["yo", "", "vos"] ~?= ["yo","","xqu"],
+    cifrarLista ["aaaa", "BbBb", "ZzAa"] ~?= ["aaaa","BcBc","ZbAc"]
     ]
 
 testsEjfrecuencia = test [
-    expectlistProximity (frecuencia "taller") [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0]
+    expectlistProximity (frecuencia "taller") [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0],
+    expectlistProximity (frecuencia "aaaa") [100,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    expectlistProximity (frecuencia "aabc") [50,25,25,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    expectlistProximity (frecuencia "AAAA") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    expectlistProximity (frecuencia "zzzz") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,100],
+    expectlistProximity (frecuencia "a/a/") [100,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0]
     ]
 
---testsEjcifradoMasFrecuente = test [
-  --  cifradoMasFrecuente "taller" 3 ~?= ('o', 33.333336)]
+testsEjcifradoMasFrecuente = test [
+  cifradoMasFrecuente "taller" 3 ~?= ('o', 33.333332)]
 
---testsEjesDescifrado = test [
-  --  esDescifrado "taller" "compu" ~?= False]
+testsEjesDescifrado = test [
+  esDescifrado "taller" "compu" ~?= False]
 
---testsEjtodosLosDescifrados = test [todosLosDescifrados ["compu", "frpsx", "mywza"] ~?= [("compu", "frpsx"), ("frpsx", "compu")]]
+testsEjtodosLosDescifrados = test [todosLosDescifrados ["compu", "frpsx", "mywza"] ~?= [("compu", "frpsx"), ("frpsx", "compu")]]
 
---testsEjexpandirClave = test [
-  --  expandirClave "compu" 8 ~?= "compucom"]
+testsEjexpandirClave = test [
+  expandirClave "compu" 8 ~?= "compucom"]
 
---testsEjcifrarVigenere = test [
-  --  cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv"]
+testsEjcifrarVigenere = test [
+  cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv"]
 
---testsEjdescifrarVigenere = test [
-  --  descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion"]
+testsEjdescifrarVigenere = test [
+  descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion"]
 
---testsEjpeorCifrado = test [
-  --  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef"]
+testsEjpeorCifrado = test [
+  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef"]
 
---testsEjcombinacionesVigenere = test [
-  --  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]]
+testsEjcombinacionesVigenere = test [
+  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]]
 
 -- Funciones útiles
 

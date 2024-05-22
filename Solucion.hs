@@ -23,7 +23,7 @@ import Data.Char
 -- EJ 1
 esMinuscula :: Char -> Bool
 esMinuscula caracter = 97 <= ord(caracter) && ord(caracter) <= 122 
-                -- el 97 es la a minuscula, el 122 es la Z minuscula
+                -- el 97 es la A minuscula, el 122 es la Z minuscula
 
 -- EJ 2
 letraANatural :: Char -> Int
