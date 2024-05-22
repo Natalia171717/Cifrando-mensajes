@@ -38,18 +38,36 @@ testsEjletraANatural = test [
 
 testsEjdesplazar = test [
     desplazar 'a' 3 ~?= 'd'
+    desplazar '/' 3 ~?= '/'
+    desplazar 'B' 3 ~?= 'B'
+    desplazar 'g' 0 ~?= 'g'
+    desplazar 'a' 26 ~?= 'a'
+    desplazar 'b' 27 ~?= 'c'
+    desplazar 'f' (-1) ~?= 'e'
     ]
 
 testsEjcifrar = test [
     cifrar "computacion" 3 ~?= "frpsxwdflrq"
+    cifrar "Nada" 3 ~?= "Ndgd"
+    cifrar "Buenas Tardes" 2 ~?= "Bwgpcu Tctfgu"
+    cifrar "zorro" 1 ~?= "apssp"
+    cifrar "luz" (-2) ~?= "jsx"
+    cifrar "hola!" 5 ~?= "mtqf!"
     ]
 
 testsEjdescifrar = test [
     descifrar "frpsxwdflrq" 3 ~?= "computacion"
+    descifrar "Ndgd" 3 ~?= "Nada"
+    descifrar "Bwgpcu Tctfgu" 2 ~?= "Buenas Tardes"
+    descifrar "apssp" 1 ~?= "zorro"
+    descifrar "jsx" (-2) ~?= "luz"
+    descifrar "mtqf!" 3 ~?= "hola!"
     ]
 
 testsEjcifrarLista = test [
     cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"]
+    cifrarLista ["hola", "Chau", "texto"] ~?= ["hola","Cibv","vgzvq"]
+    cifrarLista ["yo", "", "vos"] ~?= ["yo","","xqu"]
     ]
 
 testsEjfrecuencia = test [
