@@ -18,8 +18,8 @@ allTests = test [
     "todosLosDescifrados" ~: testsEjtodosLosDescifrados,
     "expandirClave" ~: testsEjexpandirClave,
     "cifrarVigenere" ~: testsEjcifrarVigenere,
-    "descifrarVigenere" ~: testsEjdescifrarVigenere
-    --"peorCifrado" ~: testsEjpeorCifrado,
+    "descifrarVigenere" ~: testsEjdescifrarVigenere,
+    "peorCifrado" ~: testsEjpeorCifrado
     --"combinacionesVigenere" ~: testsEjcombinacionesVigenere
     ]
 
@@ -126,7 +126,13 @@ testsEjdescifrarVigenere = test [
   ]
 
 testsEjpeorCifrado = test [
-  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef"]
+  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef", -- Probamos en un caso que sea con 3 valores diferentes
+  peorCifrado "computacion" ["a", "ab", "abc"] ~?= "a", -- Probamos con casos mas simples,dondeuno de los casos no cambia nada
+  peorCifrado "computacion" ["ab", "ab", "abc"] ~?= "ab", -- Probamos cuando esta repetido
+  peorCifrado "computacion" ["z", "za"] ~?= "za", -- Probamos un caso especifico
+  peorCifrado "computacion" ["z"] ~?= "z", -- Probamos cuando hay un solo elemento
+  peorCifrado "computacion" ["z","a","ds"] ~?= "a" -- Hicimosun ultimo ejercicio simple
+  ]
 
 testsEjcombinacionesVigenere = test [
   combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]]
