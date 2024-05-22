@@ -143,7 +143,16 @@ descifrarVigenereAux (letra:xs) (letraClave:ys) = (desplazar letra (-(letraANatu
 
 -- EJ 14
 peorCifrado :: String -> [String] -> String
-peorCifrado _ _ = "asdef"
+peorCifrado _ [x] = x
+peorCifrado mensaje (clave:xs) |distanciaConClave <= distanciaConPeorClave = clave
+                               |otherwise = peorCifrado mensaje xs
+                               where distanciaConClave = distancia (cifrarVigenere mensaje clave) mensaje (length mensaje)
+                                     distanciaConPeorClave = distancia (cifrarVigenere mensaje (peorCifrado mensaje xs)) mensaje (length mensaje)
+
+distancia :: String -> String -> Int -> Int
+distancia _ _ 0 = 0
+distancia (letra1:mensaje1) (letra2:mensaje2) longitud = abs(letraANatural(letra1)-letraANatural(letra2))+distancia mensaje1 mensaje2 (longitud-1)
+
 
 -- EJ 15
 combinacionesVigenere :: [String] -> [String] -> String -> [(String, String)]
