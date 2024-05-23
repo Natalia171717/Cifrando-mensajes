@@ -20,7 +20,7 @@ allTests = test [
     "cifrarVigenere" ~: testsEjcifrarVigenere,
     "descifrarVigenere" ~: testsEjdescifrarVigenere,
     "peorCifrado" ~: testsEjpeorCifrado
-    --"combinacionesVigenere" ~: testsEjcombinacionesVigenere
+    "combinacionesVigenere" ~: testsEjcombinacionesVigenere
     ]
 
 
@@ -82,10 +82,10 @@ testsEjfrecuencia = test [
     ]
 
 testsEjcifradoMasFrecuente = test [
-  cifradoMasFrecuente "taller" 3 ~?= ('o', 33.333332), -- Probamos un test de solo minusculas y que hayan 2 iguales
-  cifradoMasFrecuente "AaAa" 3 ~?= ('d', 100), -- Probamos un test con minusculas y mayusculas 
-  cifradoMasFrecuente "taller" 26 ~?= ('l', 33.333332), -- Probamos un test con una vuelta entera
-  cifradoMasFrecuente "aabc" 100 ~?= ('w', 50) -- Probamos un test con mas de una vuelta
+  expectAnyTuplaAprox (cifradoMasFrecuente "taller" 3) [('o', 33.333332)], -- Probamos un test de solo minusculas y que hayan 2 iguales
+  expectAnyTuplaAprox (cifradoMasFrecuente "AaAa" 3)  [('d', 100)], -- Probamos un test con minusculas y mayusculas 
+  expectAnyTuplaAprox (cifradoMasFrecuente "taller" 26) [('l', 33.333332)], -- Probamos un test con una vuelta entera
+  expectAnyTuplaAprox (cifradoMasFrecuente "aabc" 100) [('w', 50)] -- Probamos un test con mas de una vuelta
   ]
 
 testsEjesDescifrado = test [
@@ -95,11 +95,12 @@ testsEjesDescifrado = test [
   esDescifrado "aAaA" "bAbA" ~?= True -- Ṕrobamos con un ejemplo de mayusculasy minsculas verdadero
   ]
 
-testsEjtodosLosDescifrados = test [todosLosDescifrados ["compu", "frpsx", "mywza"] ~?= [("compu", "frpsx"), ("frpsx", "compu")],  -- Probamos en un caso donde son todos minusculas
-  todosLosDescifrados ["bbbb", "aaaa", "mywza"] ~?= [("bbbb","aaaa"),("aaaa","bbbb")], -- Probamos en un caso donde son todos minusculas
-  todosLosDescifrados ["aaaa", "bbbb", "xxxx"] ~?= [("aaaa","bbbb"),("aaaa","xxxx"),("bbbb","aaaa"),("bbbb","xxxx"),("xxxx","aaaa"),("xxxx","bbbb")], -- Probamos en un caso donde hay mas de dos iguales
-  todosLosDescifrados ["bBbB", "aAaA", "mywza"] ~?= [], -- Probamos en un caso donde sean todos diferentes
-  todosLosDescifrados ["bBbB", "aBaB", "mywza"] ~?= [("bBbB","aBaB"),("aBaB","bBbB")] -- Probamos un caso donde hay minusculasy mayusculas
+testsEjtodosLosDescifrados = test [
+  expectPermutacion (todosLosDescifrados ["compu", "frpsx", "mywza"]) [("compu", "frpsx"), ("frpsx", "compu")],  -- Probamos en un caso donde son todos minusculas
+  expectPermutacion (todosLosDescifrados ["bbbb", "aaaa", "mywza"]) [("bbbb","aaaa"),("aaaa","bbbb")], -- Probamos en un caso donde son todos minusculas
+  expectPermutacion (todosLosDescifrados ["aaaa", "bbbb", "xxxx"]) [("aaaa","bbbb"),("aaaa","xxxx"),("bbbb","aaaa"),("bbbb","xxxx"),("xxxx","aaaa"),("xxxx","bbbb")], -- Probamos en un caso donde hay mas de dos iguales
+  expectPermutacion (todosLosDescifrados ["bBbB", "aAaA", "mywza"]) [], -- Probamos en un caso donde sean todos diferentes
+  expectPermutacion (todosLosDescifrados ["bBbB", "aBaB", "mywza"]) [("bBbB","aBaB"),("aBaB","bBbB")] -- Probamos un caso donde hay minusculasy mayusculas
 
   ]
 
@@ -122,7 +123,7 @@ testsEjdescifrarVigenere = test [
   descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion", --Probamos en un caso que que seacon dos valores diferentes
   descifrarVigenere "abcd" "a" ~?= "abcd", -- Probamos un caso donde no se mueve
   descifrarVigenere "bcde" "b" ~?= "abcd", -- Probamos un caso donde da un paso
-  cifrarVigenere "" "zzzz" ~?= "" -- Probamos un caso donde el mensaje a cambiar es vacio
+  descifrarVigenere "" "zzzz" ~?= "" -- Probamos un caso donde el mensaje a cambiar es vacio
   ]
 
 testsEjpeorCifrado = test [
@@ -131,11 +132,15 @@ testsEjpeorCifrado = test [
   peorCifrado "computacion" ["ab", "ab", "abc"] ~?= "ab", -- Probamos cuando esta repetido
   peorCifrado "computacion" ["z", "za"] ~?= "za", -- Probamos un caso especifico
   peorCifrado "computacion" ["z"] ~?= "z", -- Probamos cuando hay un solo elemento
-  peorCifrado "computacion" ["z","a","ds"] ~?= "a" -- Hicimosun ultimo ejercicio simple
+  peorCifrado "computacion" ["z","a","ds"] ~?= "a" -- Hicimos un ultimo ejercicio simple
   ]
 
 testsEjcombinacionesVigenere = test [
-  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")]]
+  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")], -- Probamos con un caso basico
+  combinacionesVigenere ["aaaa", "mundo"] ["b"] "bbbb" ~?= [("aaaa", "b")], -- Probamos con un caso de una sola clave
+  combinacionesVigenere ["aaaa", "mundo"] [] "aaaa" ~?= [] -- Probamos un caso de ninguna clave
+  combinacionesVigenere ["aaaa", "mundo"] ["b","c"] "aaaa" ~?= [] --  Probamos un caso donde no existe un caso concreto
+  ]
 
 -- Funciones útiles
 

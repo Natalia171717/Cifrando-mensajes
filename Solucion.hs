@@ -10,12 +10,8 @@ import Data.Char
 -- Integrante1: { 4526405, Andrade, Gonzalo}
 -- Integrante2: { 45320586, De Marco, Augusto}
 -- Integrante3: { 96245438, Pérez, Natalia}
--- Integrante4: { DNI4,apellidoYNombre4}
--- Integrantes que abandonaron la materia: {En caso que haya abandonado la materia algún
-                        -- integrante, completar con los dni y apellidos, sino dejar vacío}
-
-
--- Las letras en minuscula van de la 97 a la 122
+-- Integrante4: { 44094619, Bozzone, Guadalupe} No participo en el TP
+-- Integrantes que abandonaron la materia: {}
 
 --PARTE I
 -- EJ 1
@@ -37,7 +33,7 @@ desplazarAux :: Char -> Int -> Char
 desplazarAux caracter movimiento | movimiento>0 && (ord(caracter) + movimiento)>122 = desplazarAux caracter (movimiento-26)
                                  | movimiento<0 && (ord(caracter) + movimiento)<97 = desplazarAux caracter (movimiento+26)
                                  | otherwise = chr(ord(caracter) + movimiento)
-
+                                 
 -- EJ 4
 cifrar :: String -> Int -> String
 cifrar "" _ = ""
