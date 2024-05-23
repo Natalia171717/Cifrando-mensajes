@@ -5,5 +5,5 @@ commit: {Completar con el commit a tener en cuenta (no se revisan cambios poster
 Integrante1: { 45326405, Andrade Gonzalo}
 Integrante2: { 45320586, De Marco, Augusto}
 Integrante3: { 96245438, Pérez, Natalia}
-Integrante4: { DNI4,apellidoYNombre4}
-Integrantes que abandonaron la materia: {En caso que haya abandonado la materia algún integrante, completar con los dni y apellidos, sino dejar vacío}
+Integrante4: { 44094619, Bozzone, Guadalupe} No participo en el TP
+Integrantes que abandonaron la materia: {}
