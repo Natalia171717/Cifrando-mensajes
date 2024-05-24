@@ -19,127 +19,138 @@ allTests = test [
     "expandirClave" ~: testsEjexpandirClave,
     "cifrarVigenere" ~: testsEjcifrarVigenere,
     "descifrarVigenere" ~: testsEjdescifrarVigenere,
-    "peorCifrado" ~: testsEjpeorCifrado
+    "peorCifrado" ~: testsEjpeorCifrado,
     "combinacionesVigenere" ~: testsEjcombinacionesVigenere
     ]
 
 
 testsEjesMinuscula = test [
-    esMinuscula 'a' ~?= True, -- Probamos con una minuscula
-    esMinuscula '/' ~?= False, --Probamos con un caracter que no sea una letra
-    esMinuscula 'A' ~?= False -- Probamos con una mayuscula
+    "Minuscula" ~: esMinuscula 'a' ~?= True,
+    "Caracter que no es una letra" ~: esMinuscula '/' ~?= False, 
+    "Mayuscula" ~: esMinuscula 'A' ~?= False 
     ]
 
 testsEjletraANatural = test [
-    letraANatural 'b' ~?= 1, -- Probando con una minuscula
-    letraANatural '/' ~?= -50, -- Probamos con un caracter que no sea una letra del abecedario
-    letraANatural 'B' ~?= -31 -- Probamos con una mayuscula
+    "Primer letra minuscula" ~: letraANatural 'a' ~?= 0,
+    "Ultima letra minuscula" ~: letraANatural 'z' ~?= 25,
+    "Otra letra minuscula" ~: letraANatural 'm' ~?= 12
     ]
 
 testsEjdesplazar = test [
-    desplazar 'a' 3 ~?= 'd', -- Probamos un movimiento corto en las primeras letras
-    desplazar '/' 3 ~?= '/', -- Probamos un movimiento corto con algo que no deberia moverse
-    desplazar 'B' 3 ~?= 'B', -- Probamos un movimiento corto con algo que no deberia moverse
-    desplazar 'g' 0 ~?= 'g', -- Probamos un movimiento nulo
-    desplazar 'a' 26 ~?= 'a', -- Probamos una vuelta completa
-    desplazar 'b' 27 ~?= 'c', -- Probamos mas de una vuelta
-    desplazar 'a' 100 ~?= 'w', -- Probamos mas de dos vueltas en el abecedario
-    desplazar 'f' (-1) ~?= 'e' -- Probamos un movimiento negativo
+    --movimiento positivo
+    "Movimiento corto con minuscula" ~: desplazar 'a' 3 ~?= 'd', 
+    "Movimiento corto con un caracter que no es una letra" ~: desplazar '/' 3 ~?= '/', 
+    "Movimiento corto con mayuscula" ~: desplazar 'B' 3 ~?= 'B', 
+    "Movimiento nulo" ~: desplazar 'g' 0 ~?= 'g',
+    "Vuelta completa" ~: desplazar 'a' 26 ~?= 'a',
+    "Un poco mas de una Vuelta completa" ~: desplazar 'b' 27 ~?= 'c', 
+    "Mas de dos vueltas completas" ~: desplazar 'a' 100 ~?= 'w',
+    --movimiento negativo
+    "Movimiento corto con minuscula y negativo" ~: desplazar 'n' (-3) ~?= 'k', 
+    "Movimiento corto con un caracter que no es una letra y negativo" ~: desplazar '/' (-3) ~?= '/', 
+    "Movimiento corto con mayuscula y negativo" ~: desplazar 'B' (-3) ~?= 'B', 
+    "Vuelta completa y negativo" ~: desplazar 'a' (-26) ~?= 'a',
+    "Un poco menos de una Vuelta completa y negativo" ~: desplazar 'b' (-3) ~?= 'y', 
+    "Mas de dos vueltas completas y negativo" ~: desplazar 'a' (-100) ~?= 'e'
     ]
 
 testsEjcifrar = test [
-    cifrar "computacion" 3 ~?= "frpsxwdflrq", -- Probamos un cifrado simple
-    cifrar "aAbBCc" 1 ~?= "bAcBCd", -- Probamos un test con mayusculas y minusculas
-    cifrar "zorro" 26 ~?= "zorro", -- Probamos con que de la vuelta entera
-    cifrar "luz" (-2) ~?= "jsx", -- Probamos con movimiento negativo
-    cifrar "hola!" 5 ~?= "mtqf!", --Probamos con minusculas y simbolos que no deberian de moverse
-    cifrar "abc" 100 ~?= "wxy" -- Probamos mas de dos vueltas en el abecedario
+    "Minusculas" ~: cifrar "computacion" 3 ~?= "frpsxwdflrq", 
+    "Mayusculas y minusculas" ~: cifrar "aAbBCc" 1 ~?= "bAcBCd", 
+    "Vuelta completa" ~: cifrar "zorro" 26 ~?= "zorro", 
+    "Minusculas y caracteres que no son letras" ~: cifrar "hola!" 5 ~?= "mtqf!", 
+    "Mas de dos vueltas completas" ~: cifrar "abc" 100 ~?= "wxy", 
+    "Minusculas, mayusculas y caracteres que no son letras" ~: cifrar "holA!" 5 ~?= "mtqA!"
     ]
 
 testsEjdescifrar = test [
-    descifrar "frpsxwdflrq" 3 ~?= "computacion", -- Probamos con solo minusculas
-    descifrar "Bwgpcu Tctfgu" 2 ~?= "Buenas Tardes", -- Probamo con mayusculas y minusculas
-    descifrar "apssp" 26 ~?= "apssp", -- Probamos con una vuelta completa
-    descifrar "jsx" (-2) ~?= "luz", -- Probamos con movimientos negativos
-    descifrar "mtqf!" 3 ~?= "jqnc!", -- Probamos con elementos que no se deberian de mover
-    descifrar "wxy" 100 ~?= "abc" -- Probamos mas de dos vueltas en el abecedario
+    "Minusculas" ~: descifrar "frpsxwdflrq" 3 ~?= "computacion", 
+    "Mayusculas y minusculas" ~: descifrar "Bwgpcu Tctfgu" 2 ~?= "Buenas Tardes",
+    "Vuelta completa" ~: descifrar "apssp" 26 ~?= "apssp", 
+    "Minusculas y caracteres que no son letras" ~: descifrar "mtqf!" 3 ~?= "jqnc!", 
+    "Mas de dos vueltas completas" ~: descifrar "wxy" 100 ~?= "abc", 
+    "Minusculas, mayusculas y caracteres que no son letras" ~: descifrar "mtqA!" 5 ~?= "holA!"
     ]
 
 testsEjcifrarLista = test [
-    cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"], -- Probamos con una lista de todo minuscula
-    cifrarLista ["hola", "Chau", "teXto"] ~?= ["hola","Cibv","vgXvq"], -- Probamos con una lista con masyusculas y minusculas
-    cifrarLista ["yo", "", "vos"] ~?= ["yo","","xqu"], -- Probamos con una lista vacia
-    cifrarLista ["a", "b", "c","d", "e", "f","g", "h", "i","j", "k", "l","m", "n", "o","p", "q", "r","s", "t", "u","v", "x", "y ","z", "a", "b"] ~?= ["a","c","e","g","i","k","m","o","q","s","u","w","y","a","c","e","g","i","k","m","o","q","t","v ","x","z","b"] -- Probamos con una lista de mas de26 elementos
+    "Lista minusculas" ~: cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"], 
+    "Lista no solo minusculas" ~: cifrarLista ["hola", "Chau", "teXto*", ""] ~?= ["hola", "Cibv","vgXvq*", ""],
+    "Lista sin minusculas" ~: cifrarLista ["HOLA", "123", "CH4", "!X*"] ~?= ["HOLA", "123", "CH4", "!X*"],
+    "Lista vacia" ~: cifrarLista [] ~?= [], 
+    "Lista con muchos elementos" ~: cifrarLista ["a", "b", "c","d", "e", "f","g", "h", "i","j", "k", "l","m", "n", "o","p", "q", "r","s", "t", "u","v", "x", "y ","z", "a", "b"] ~?= ["a","c","e","g","i","k","m","o","q","s","u","w","y","a","c","e","g","i","k","m","o","q","t","v ","x","z","b"] 
     ]
 
 testsEjfrecuencia = test [
-    expectlistProximity (frecuencia "taller") [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0], -- Un ejemplo con todas minusculas
-    expectlistProximity (frecuencia "aaaa") [100,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0], -- Un ejemplo con 100%
-    expectlistProximity (frecuencia "aabc") [50,25,25,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0], -- Un ejemplo con 50%
-    expectlistProximity (frecuencia "AAAA") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0], -- Un ejemplo con 0% en totalidad
-    expectlistProximity (frecuencia "zzzz") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,100],  --Un ejemplo con 100%
-    expectlistProximity (frecuencia "a/a/") [100,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0] -- Un ejemplo con 100% debido a que hay minusculas y elementos q no cuentan
+    "Minusculas" ~: expectlistProximity (frecuencia "taller") [16.666668,0.0,0.0,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0,33.333336,0.0,0.0,0.0,0.0,0.0,16.666668,0.0,16.666668,0.0,0.0,0.0,0.0,0.0,0.0], 
+    "Letra a es el 100%" ~: expectlistProximity (frecuencia "aaaa") [100,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0], 
+    "Letra a es el 50%" ~: expectlistProximity (frecuencia "aabc") [50,25,25,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    "Sin minusculas" ~: expectlistProximity (frecuencia "AAAA") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    "Letra Z es el 100%" ~: expectlistProximity (frecuencia "zzzz") [0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,100],  
+    "No solo minusculas" ~: expectlistProximity (frecuencia "a/b/cde") [20,20,20,20,20,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0],
+    "Vacio" ~: expectlistProximity (frecuencia "") [0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0.0,0.0,0.0,0.0,0.0,0,0.0,0,0.0,0.0,0.0,0.0,0.0,0.0] 
     ]
 
 testsEjcifradoMasFrecuente = test [
-  expectAnyTuplaAprox (cifradoMasFrecuente "taller" 3) [('o', 33.333332)], -- Probamos un test de solo minusculas y que hayan 2 iguales
-  expectAnyTuplaAprox (cifradoMasFrecuente "AaAa" 3)  [('d', 100)], -- Probamos un test con minusculas y mayusculas 
-  expectAnyTuplaAprox (cifradoMasFrecuente "taller" 26) [('l', 33.333332)], -- Probamos un test con una vuelta entera
-  expectAnyTuplaAprox (cifradoMasFrecuente "aabc" 100) [('w', 50)] -- Probamos un test con mas de una vuelta
+  "Solo minusculas y una letra con mayor frecuencia" ~: expectAnyTuplaAprox (cifradoMasFrecuente "taller" 3) [('o', 33.33333)], 
+  "No solo minusculas y una letra con mayor frecuencia" ~: expectAnyTuplaAprox (cifradoMasFrecuente "AaAa" 3)  [('d', 100)], 
+  "Solo minusculas y mas de una letra con mayor frecuencia" ~: expectAnyTuplaAprox (cifradoMasFrecuente "aaller" 26) [('l', 33.333332), ('a', 33.333332)], 
+  "No solo minusculas y mas de una letra con mayor frecuencia" ~: expectAnyTuplaAprox (cifradoMasFrecuente "aaBcc" 100) [('w', 50), ('y', 50)] 
   ]
 
 testsEjesDescifrado = test [
-  esDescifrado "taller" "compu" ~?= False, -- Probamos con un ejemplo simple y falso
-  esDescifrado "aaaa" "bbbb" ~?= True, -- Probamos con un ejemplo simple y verdadero
-  esDescifrado "aaaa" "bBbB" ~?= False, -- Probamos con un ejemplo de mayusculas falso
-  esDescifrado "aAaA" "bAbA" ~?= True -- Ṕrobamos con un ejemplo de mayusculasy minsculas verdadero
+  "Solo minusculas y falso" ~: esDescifrado "taller" "compu" ~?= False, 
+  "Solo minusculas y verdadero" ~:  esDescifrado "aaaa" "bbbb" ~?= True, 
+  "No solo minusculas y vacio" ~: esDescifrado "" "bBbB" ~?= False, 
+  "No solo minusculas y verdadero" ~: esDescifrado "aAaA" "bAbA" ~?= True 
   ]
 
 testsEjtodosLosDescifrados = test [
-  expectPermutacion (todosLosDescifrados ["compu", "frpsx", "mywza"]) [("compu", "frpsx"), ("frpsx", "compu")],  -- Probamos en un caso donde son todos minusculas
-  expectPermutacion (todosLosDescifrados ["bbbb", "aaaa", "mywza"]) [("bbbb","aaaa"),("aaaa","bbbb")], -- Probamos en un caso donde son todos minusculas
-  expectPermutacion (todosLosDescifrados ["aaaa", "bbbb", "xxxx"]) [("aaaa","bbbb"),("aaaa","xxxx"),("bbbb","aaaa"),("bbbb","xxxx"),("xxxx","aaaa"),("xxxx","bbbb")], -- Probamos en un caso donde hay mas de dos iguales
-  expectPermutacion (todosLosDescifrados ["bBbB", "aAaA", "mywza"]) [], -- Probamos en un caso donde sean todos diferentes
-  expectPermutacion (todosLosDescifrados ["bBbB", "aBaB", "mywza"]) [("bBbB","aBaB"),("aBaB","bBbB")] -- Probamos un caso donde hay minusculasy mayusculas
+  "No todos aparecen" ~: expectPermutacion (todosLosDescifrados ["compu", "frpsx", "mywza"]) [("compu", "frpsx"), ("frpsx", "compu")],  
+  "Dos elementos y todos aparecen" ~: expectPermutacion (todosLosDescifrados ["bbbb", "aaaa"]) [("bbbb","aaaa"),("aaaa","bbbb")], 
+  "Mas de dos elementos y todos aparecen" ~: expectPermutacion (todosLosDescifrados ["aaaa", "bbbb", "xxxx"]) [("aaaa","bbbb"),("aaaa","xxxx"),("bbbb","aaaa"),("bbbb","xxxx"),("xxxx","aaaa"),("xxxx","bbbb")], 
+  "Ninguno aparece" ~: expectPermutacion (todosLosDescifrados ["bbbc", "aaaa", "mywza"]) [], 
+  "No todos minuscula" ~: expectPermutacion (todosLosDescifrados ["bBbB", "aBaB", "mywza"]) [("bBbB","aBaB"),("aBaB","bBbB")] 
 
   ]
 
 testsEjexpandirClave = test [
-  expandirClave "compu" 8 ~?= "compucom", --Probamos con un caso de todos minusculas
-  expandirClave "clave" 7 ~?= "clavecl", -- Probamos con un caso de todos minusculas
-  expandirClave "compu" 3 ~?= "com" -- Probamos con cortar la palabra a algo mas corto 
+  "Alargar simple" ~: expandirClave "compu" 8 ~?= "compucom", 
+  "Alargar complejo" ~: expandirClave "clave" 24 ~?= "claveclaveclaveclaveclav", 
+  "Recorte" ~: expandirClave "compu" 3 ~?= "com" 
   ]
 
 
 testsEjcifrarVigenere = test [
-  cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv", --Probamos en un caso que que seacon dos valores diferentes
-  cifrarVigenere "abcd" "a" ~?= "abcd", -- Probamos un caso donde no se mueve
-  cifrarVigenere "abcd" "b" ~?= "bcde", -- Probamos un caso donde da un paso
-  cifrarVigenere "abcd" "ab" ~?= "acce", -- Probamos un caso donde se mueve con dos valores diferentes
-  cifrarVigenere "" "zzzz" ~?= "" -- Probamos un caso donde el mensaje a cambiar es vacio
+  "Clave con dos valores" ~: cifrarVigenere "computacion" "ip" ~?= "kdueciirqdv", 
+  "Mismo mensaje" ~: cifrarVigenere "abcd" "a" ~?= "abcd", 
+  "Clave con un valor" ~: cifrarVigenere "abcd" "b" ~?= "bcde", 
+  "Clave con mas valores" ~: cifrarVigenere "abcd" "don" ~?= "dppg", 
+  "Mensaje vacio" ~: cifrarVigenere "" "zzzz" ~?= ""
   ]
 
 testsEjdescifrarVigenere = test [
-  descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion", --Probamos en un caso que que seacon dos valores diferentes
-  descifrarVigenere "abcd" "a" ~?= "abcd", -- Probamos un caso donde no se mueve
-  descifrarVigenere "bcde" "b" ~?= "abcd", -- Probamos un caso donde da un paso
-  descifrarVigenere "" "zzzz" ~?= "" -- Probamos un caso donde el mensaje a cambiar es vacio
+  "Clave con dos valores" ~: descifrarVigenere "kdueciirqdv" "ip" ~?= "computacion", 
+  "Mismo mensaje" ~: descifrarVigenere "abcd" "a" ~?= "abcd", 
+  "Clave con un valor" ~: descifrarVigenere "bcde" "b" ~?= "abcd", 
+  "Clave con mas valores" ~: descifrarVigenere "dppg" "don" ~?= "abcd",
+  "Mensaje vacio" ~: descifrarVigenere "" "zzzz" ~?= "" 
   ]
 
 testsEjpeorCifrado = test [
-  peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef", -- Probamos en un caso que sea con 3 valores diferentes
-  peorCifrado "computacion" ["a", "ab", "abc"] ~?= "a", -- Probamos con casos mas simples,dondeuno de los casos no cambia nada
-  peorCifrado "computacion" ["ab", "ab", "abc"] ~?= "ab", -- Probamos cuando esta repetido
-  peorCifrado "computacion" ["z", "za"] ~?= "za", -- Probamos un caso especifico
-  peorCifrado "computacion" ["z"] ~?= "z", -- Probamos cuando hay un solo elemento
-  peorCifrado "computacion" ["z","a","ds"] ~?= "a" -- Hicimos un ultimo ejercicio simple
+  "Tres claves" ~: peorCifrado "computacion" ["ip", "asdef", "ksy"] ~?= "asdef", 
+  "Clave repetida" ~: peorCifrado "computacion" ["ab", "ab", "abc"] ~?= "ab",
+  "Dos peores claves" ~: expectAny(peorCifrado "computacion" ["ab", "ba", "abc"]) ["ab", "ba"],
+  "Dos claves" ~: peorCifrado "computacion" ["z", "za"] ~?= "za", 
+  "Una claves" ~: peorCifrado "computacion" ["z"] ~?= "z", 
+  "Una clave deja al mensaje igual" ~: peorCifrado "computacion" ["z","a","ds"] ~?= "a" 
   ]
 
 testsEjcombinacionesVigenere = test [
-  combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")], -- Probamos con un caso basico
-  combinacionesVigenere ["aaaa", "mundo"] ["b"] "bbbb" ~?= [("aaaa", "b")], -- Probamos con un caso de una sola clave
-  combinacionesVigenere ["aaaa", "mundo"] [] "aaaa" ~?= [] -- Probamos un caso de ninguna clave
-  combinacionesVigenere ["aaaa", "mundo"] ["b","c"] "aaaa" ~?= [] --  Probamos un caso donde no existe un caso concreto
+  "Combinacion simple" ~: combinacionesVigenere ["hola", "mundo"] ["a", "b"] "ipmb" ~?= [("hola", "b")], 
+  "Una sola clave" ~: combinacionesVigenere ["aaaa", "mundo"] ["b"] "bbbb" ~?= [("aaaa", "b")], 
+  "Listas vacias" ~: combinacionesVigenere [] [] "aaaa" ~?= [], 
+  "cifrado vacio" ~: combinacionesVigenere [] [] "" ~?= [], 
+  "Nada es igual a cifrado" ~: combinacionesVigenere ["aaaa", "mundo"] ["b","c"] "aaaa" ~?= [] 
   ]
 
 -- Funciones útiles

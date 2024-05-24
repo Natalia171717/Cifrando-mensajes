@@ -1,11 +1,8 @@
 module Solucion where
 import Data.Char
--- No se permite agrear nuevos imports
 -- Sólo está permitido usar estas funciones:
 -- https://campus.exactas.uba.ar/pluginfile.php/557895/mod_resource/content/1/validas_tp.pdf
 
-
--- Completar!
 -- Nombre de grupo: {Los Linces}
 -- Integrante1: { 4526405, Andrade, Gonzalo}
 -- Integrante2: { 45320586, De Marco, Augusto}
@@ -17,7 +14,7 @@ import Data.Char
 -- EJ 1
 esMinuscula :: Char -> Bool
 esMinuscula caracter = 97 <= ord(caracter) && ord(caracter) <= 122 
-                -- el 97 es la A minuscula, el 122 es la Z minuscula
+                -- el 97 es la A minuscula, el 122 es la Z minuscula (las minusculas van del 97 al 122)
 
 -- EJ 2
 letraANatural :: Char -> Int
