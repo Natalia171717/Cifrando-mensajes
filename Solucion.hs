@@ -1,14 +1,6 @@
 module Solucion where
 import Data.Char
--- Sólo está permitido usar estas funciones:
--- https://campus.exactas.uba.ar/pluginfile.php/557895/mod_resource/content/1/validas_tp.pdf
 
--- Nombre de grupo: {Los Linces}
--- Integrante1: { 4526405, Andrade, Gonzalo}
--- Integrante2: { 45320586, De Marco, Augusto}
--- Integrante3: { 96245438, Pérez, Natalia}
--- Integrante4: { 44094619, Bozzone, Guadalupe} No participo en el TP
--- Integrantes que abandonaron la materia: {}
 
 --PARTE I
 -- EJ 1
