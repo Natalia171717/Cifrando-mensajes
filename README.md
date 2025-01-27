@@ -1,4 +1,4 @@
-## Cifrado de Mensajes con Haskell
+## Message encryption with Haskell
 
 ### About the project
 - The project was developed exclusively using Haskell.
