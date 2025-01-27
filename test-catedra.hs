@@ -1,7 +1,6 @@
 import Test.HUnit
 import Solucion
 import Data.List
--- No está permitido agregar nuevos imports.
 
 runCatedraTests = runTestTT allTests
 
