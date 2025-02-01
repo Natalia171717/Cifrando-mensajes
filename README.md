@@ -9,7 +9,7 @@ This was a collaborative project where I took the lead on coding, while my teamm
 ### How to run
 - The test file is located within the project. You can use it to add your own tests and try the program.
 - To execute the project, it is necessary to have the Haskell compiler (GHC) installed on your device.
-- The tests were implemented using the HUnit unit testing framework for Haskell. You can run the test file or invoke a specific function from the console.
+- The tests were implemented using the HUnit unit testing framework for Haskell. Once it is installed, you can run the test file or invoke a specific function from the console.
 - To run the test file:
 1. If you are using an IDE, it may be necessary to open the folder with all the files (and not just the test file).
 2. Open a terminal and type:
